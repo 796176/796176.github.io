@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>GPG</title>
+	</head>
+	<body>
+		<h1>Gnu Privacy Guard</h1>
+		<p>
+			My key is available in <a href="/static/keys/796176.pem">armored</a> and 
+			<a href="/static/keys/796176.asc">binary</a> formats.
+		</p>
+		<h2>Importing/Updating key</h2>
+		<ol>
+			<li>
+				<p>Retrieve the key from the server:</p>
+				<code>curl -o 796176.asc https://796176.github.io/static/keys/796176.asc</code>
+			</li>
+			<li>
+				<p>Add my key to your keyring:</p>
+				<code>
+					<p># the same command updates the previously added key
+					<p>gpg --import 796176.asc</p>
+				</code>
+			</li>
+			<li>
+				<p>After validating the key fingerprint, sign it with your own key:</p>
+				<code>gpg --lsign-key 796176</code>
+				<p>
+					Alternatively, in case you don't have your own key it's possible - although not recommended - 
+					to grant the key the highest trust level:
+				</p>
+				<code>
+					<p>gpg --edit-key 796176</p>
+					<p>gpg&gt; trust</p>
+					<p># this makes you trust my key and every key i sign https://www.gnupg.org/gph/en/manual.html#AEN335</p>
+					<p>Your decision? 5</p>
+					<p>gpg&gt; save</p>
+				</code>
+			</li>
+		</ol>
+		<h2>Verying the message</h2>
+		<p>
+			There are two types of signatures -- text based and detached. For verifying the text based variant save
+			the message, starting from and including the <code>-----BEGIN PGP SIGNED MESSAGE-----</code> line
+			and ending with and including the <code>-----END PGP SIGNATURE-----</code> line. Then execute: 
+			<code>gpg --verify message</code> where <code>message</code> is the file containing the signed message.
+			<a href="/static/etc/clearsign.txt">Text based signature example.</a>
+		</p>
+		<p>
+			For verifying the detached signature, save the file containg it and execute:
+			<code>gpg --verify message</code> where <code>message</code> is the file containing 
+			the detached signature. <a href="/static/etc/detached.asc">Detached signature example.</a>
+		</p>
+	</body>
+</html>
